@@ -3,6 +3,7 @@
 [Arkhados'](https://github.com/TripleSnail/Arkhados) master server.
 
 Master server's purposes in order of importance:
+
 1. Make it easy to find and join games.
 2. Make it easy to host games by eliminating the need for port forwarding.
 
