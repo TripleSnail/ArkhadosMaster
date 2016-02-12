@@ -14,9 +14,13 @@
  along with Arkhados.  If not, see <http://www.gnu.org/licenses/>. */
 package arkhados.master;
 
+import arkhados.master.messages.RepGameList;
+import arkhados.master.messages.ReqGameList;
+import arkhados.master.messages.ReqRegisterGame;
+import arkhados.master.messages.ReqUnregisterGame;
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Server;
 import com.jme3.app.SimpleApplication;
-import com.jme3.network.Network;
-import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeContext;
@@ -25,12 +29,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main extends SimpleApplication {
+
     private final Games games = new Games();
-    
+
     public static void main(String[] args) {
         AppSettings settings = new AppSettings(true);
         settings.setFrameRate(10);
-        
+
         Main app = new Main();
         app.setShowSettings(false);
         app.setSettings(settings);
@@ -38,19 +43,23 @@ public class Main extends SimpleApplication {
         app.start(JmeContext.Type.Headless);
     }
 
+    private Server server;
+
     @Override
     public void simpleInitApp() {
-        Server server;
+        server = new Server();        
+        registerMasterMessages();
+        server.start();
         try {
-            server = Network.createServer(12345, 12345);
+            server.bind(12346, 12346);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             stop();
             return;
         }
-        
-        server.addConnectionListener(games);
-        server.addMessageListener(games);
+
+        server.addListener(games);
+        server.start();
     }
 
     @Override
@@ -59,5 +68,22 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleRender(RenderManager rm) {
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        if (server != null) {
+            server.close();
+        }
+    }       
+
+    private void registerMasterMessages() {
+        Kryo kryo = server.getKryo();
+        kryo.register(Game.class);
+        kryo.register(RepGameList.class);
+        kryo.register(ReqGameList.class);
+        kryo.register(ReqRegisterGame.class);
+        kryo.register(ReqUnregisterGame.class);
     }
 }

@@ -15,19 +15,13 @@
 package arkhados.master.messages;
 
 import arkhados.master.Game;
-import com.jme3.network.AbstractMessage;
-import com.jme3.network.serializing.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Serializable
-public class RepGameList extends AbstractMessage {
+public class RepGameList {
 
     public List<Game> games = new ArrayList<>();
-
-    public RepGameList() {
-    }
 
     public RepGameList(Collection<Game> games) {
         this.games.addAll(games);

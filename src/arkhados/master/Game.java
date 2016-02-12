@@ -14,9 +14,6 @@
  along with Arkhados.  If not, see <http://www.gnu.org/licenses/>. */
 package arkhados.master;
 
-import com.jme3.network.serializing.Serializable;
-
-@Serializable
 public class Game {    
     public String gameMode;
     public String address;    

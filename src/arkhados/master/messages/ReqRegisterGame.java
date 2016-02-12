@@ -14,16 +14,9 @@
  along with Arkhados.  If not, see <http://www.gnu.org/licenses/>. */
 package arkhados.master.messages;
 
-import com.jme3.network.AbstractMessage;
-import com.jme3.network.serializing.Serializable;
-
-@Serializable
-public class ReqRegisterGame extends AbstractMessage{
+public class ReqRegisterGame {
     public String name;
     public String gameMode;
-
-    public ReqRegisterGame() {
-    }
 
     public ReqRegisterGame(String name, String gameMode) {
         this.name = name;

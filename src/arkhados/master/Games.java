@@ -18,29 +18,23 @@ import arkhados.master.messages.RepGameList;
 import arkhados.master.messages.ReqGameList;
 import arkhados.master.messages.ReqRegisterGame;
 import arkhados.master.messages.ReqUnregisterGame;
-import com.jme3.network.ConnectionListener;
-import com.jme3.network.HostedConnection;
-import com.jme3.network.Message;
-import com.jme3.network.MessageListener;
-import com.jme3.network.Server;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Games implements ConnectionListener,
-        MessageListener<HostedConnection> {
+public class Games extends Listener {
 
-    private final Map<HostedConnection, Game> games = new HashMap<>();
+    private final Map<Connection, Game> games = new HashMap<>();
 
     @Override
-    public void connectionAdded(Server server, HostedConnection conn) {
+    public void disconnected(Connection connection) {
+        super.disconnected(connection);
+        handleUnregister(connection);
     }
 
     @Override
-    public void connectionRemoved(Server server, HostedConnection conn) {
-    }
-
-    @Override
-    public void messageReceived(HostedConnection source, Message m) {
+    public void received(Connection source, Object m) {
         if (m instanceof ReqGameList) {
             handleGameList(source);
         } else if (m instanceof ReqRegisterGame) {
@@ -50,15 +44,22 @@ public class Games implements ConnectionListener,
         }
     }
 
-    private void handleGameList(HostedConnection src) {
-        src.send(new RepGameList(games.values()));
-    }
-    
-    private void handleRegister(HostedConnection src, ReqRegisterGame req) {
-        games.put(src, new Game(req.gameMode, src.getAddress()));
+    private void handleGameList(Connection src) {
+        src.sendTCP(new RepGameList(games.values()));
     }
 
-    private void handleUnregister(HostedConnection src) {
-        games.remove(src);
+    private void handleRegister(Connection src, ReqRegisterGame req) {
+        System.out.println("New game registered: " + req.toString() + " at "
+                + src.toString());
+        games.put(src, new Game(req.gameMode, src.getRemoteAddressTCP()
+                .getAddress().toString()));
+    }
+
+    private void handleUnregister(Connection src) {
+        Game removed = games.remove(src);
+        if (removed != null) {
+            System.out.println("Removed game: " + removed.toString()
+                    + " at " + src);
+        }
     }
 }

@@ -14,11 +14,6 @@
  along with Arkhados.  If not, see <http://www.gnu.org/licenses/>. */
 package arkhados.master.messages;
 
-import com.jme3.network.AbstractMessage;
-import com.jme3.network.serializing.Serializable;
 
-@Serializable
-public class ReqGameList extends AbstractMessage{
-    public ReqGameList() {
-    }    
+public class ReqGameList {
 }
