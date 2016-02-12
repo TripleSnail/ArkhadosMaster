@@ -15,4 +15,7 @@
 package arkhados.master.messages;
 
 public class ReqUnregisterGame {
+
+    public ReqUnregisterGame() {
+    }
 }

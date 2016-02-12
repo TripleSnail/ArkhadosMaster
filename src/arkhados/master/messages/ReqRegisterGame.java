@@ -18,6 +18,9 @@ public class ReqRegisterGame {
     public String name;
     public String gameMode;
 
+    public ReqRegisterGame() {
+    }
+
     public ReqRegisterGame(String name, String gameMode) {
         this.name = name;
         this.gameMode = gameMode;

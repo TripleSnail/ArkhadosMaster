@@ -23,6 +23,9 @@ public class RepGameList {
 
     public List<Game> games = new ArrayList<>();
 
+    public RepGameList() {
+    }
+
     public RepGameList(Collection<Game> games) {
         this.games.addAll(games);
     }    

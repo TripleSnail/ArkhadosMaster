@@ -16,4 +16,7 @@ package arkhados.master.messages;
 
 
 public class ReqGameList {
+
+    public ReqGameList() {
+    }
 }

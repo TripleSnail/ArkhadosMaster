@@ -49,7 +49,7 @@ public class Main extends SimpleApplication {
     public void simpleInitApp() {
         server = new Server();        
         registerMasterMessages();
-        server.start();
+
         try {
             server.bind(12346, 12346);
         } catch (IOException ex) {
