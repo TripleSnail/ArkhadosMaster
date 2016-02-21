@@ -52,7 +52,7 @@ public class Games extends Listener {
         System.out.println("New game registered: " + req.toString() + " at "
                 + src.toString());
         games.put(src, new Game(req.gameMode, src.getRemoteAddressTCP()
-                .getAddress().toString()));
+                .getAddress().getHostAddress(), req.port));
     }
 
     private void handleUnregister(Connection src) {

@@ -14,11 +14,7 @@
  along with Arkhados.  If not, see <http://www.gnu.org/licenses/>. */
 package arkhados.master;
 
-import arkhados.master.messages.RepGameList;
-import arkhados.master.messages.ReqGameList;
-import arkhados.master.messages.ReqRegisterGame;
-import arkhados.master.messages.ReqUnregisterGame;
-import com.esotericsoftware.kryo.Kryo;
+import arkhados.master.messages.KryoMessages;
 import com.esotericsoftware.kryonet.Server;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
@@ -79,11 +75,6 @@ public class Main extends SimpleApplication {
     }       
 
     private void registerMasterMessages() {
-        Kryo kryo = server.getKryo();
-        kryo.register(Game.class);
-        kryo.register(RepGameList.class);
-        kryo.register(ReqGameList.class);
-        kryo.register(ReqRegisterGame.class);
-        kryo.register(ReqUnregisterGame.class);
+        KryoMessages.register(server.getKryo());
     }
 }

@@ -14,17 +14,22 @@
  along with Arkhados.  If not, see <http://www.gnu.org/licenses/>. */
 package arkhados.master.messages;
 
-public class ReqRegisterGame {
-    public String name;
-    public String gameMode;
-    public short port;
+import arkhados.master.Game;
+import arkhados.master.messages.RepGameList;
+import arkhados.master.messages.ReqGameList;
+import arkhados.master.messages.ReqRegisterGame;
+import arkhados.master.messages.ReqUnregisterGame;
+import com.esotericsoftware.kryo.Kryo;
+import java.util.ArrayList;
 
-    public ReqRegisterGame() {
+public class KryoMessages {
+
+    public static void register(Kryo kryo) {
+        kryo.register(ArrayList.class);
+        kryo.register(Game.class);
+        kryo.register(RepGameList.class);
+        kryo.register(ReqGameList.class);
+        kryo.register(ReqRegisterGame.class);
+        kryo.register(ReqUnregisterGame.class);
     }
-
-    public ReqRegisterGame(String name, String gameMode, int port) {
-        this.name = name;
-        this.gameMode = gameMode;
-        this.port = (short) port;
-    }        
 }
